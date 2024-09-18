@@ -152,12 +152,21 @@ int main() {
     CheckingAccount* checking = new CheckingAccount(2, 456.8, "Ali", 200.0);
     InvestmentAccount* investment = new InvestmentAccount(3, 1500.0, "Ahmad", 1.2, 12);
 
+    cout<<"before: "<<endl;
+     // Display account information
+    savings->displayInfo();
+    checking->displayInfo();
+    investment->displayInfo();
+
+
+
     // Perform deposit and withdrawal operations
     savings->deposit(200);
     checking->withdraw(100);
     investment->deposit(500);
     investment->withdraw(200);
 
+    cout<<endl<<"after: "<<endl;
     // Display account information
     savings->displayInfo();
     checking->displayInfo();
@@ -180,10 +189,14 @@ int main() {
         cout << "Both accounts have the same balance." << endl;
     }
 
+    cout<<endl<<"polymorphic operations"<<endl;
     // Use polymorphism to manage accounts
     Account* accounts[3] = {savings, checking, investment};
     for (int i = 0; i < 3; ++i) {
+        accounts[i]->deposit(120);
+        accounts[i]->withdraw(50);
         accounts[i]->displayInfo();
+
     }
 
     // Clean up memory
