@@ -229,6 +229,7 @@ class DoublyLinkedList{
             ListNode* loc1 = Loc_;
             ListNode* ploc1 = PredLoc_;
 
+
             //search val2 location
             search(val2);
             if(!Loc_){
@@ -238,7 +239,37 @@ class DoublyLinkedList{
             ListNode* loc2 = Loc_;
             ListNode* ploc2 = PredLoc_;
 
+            if (loc1==first) first=loc2; //handle if node1 was at start
+            else if(loc2==first) first=loc1; //handle if node2 was at start
             
+            if (loc1==last) last=loc2; //handle if node1 at tail
+            else if (loc2==last) last=loc1; //handle if node2 at tail
+
+            //swap node 1 and 2
+            ListNode* temp;
+            
+            temp = loc1->next;
+            loc1->next = loc2->next;
+            loc2->next = temp;
+
+
+            //checks to ensure neither at end or start
+            if (loc1->next != NULL)
+                loc1->next->prev = loc1;
+            if (loc2->next != NULL)
+                loc2->next->prev = loc2;
+        
+            temp = loc1->prev;
+            loc1->prev = loc2->prev;
+            loc2->prev = temp;
+
+            //checks to ensure neither at end or start
+            if (loc1->prev != NULL)
+                loc1->prev->next = loc1;
+            if (loc2->prev != NULL)
+                loc2->prev->next = loc2;
+                    
+                    
 
         }
 
@@ -252,15 +283,32 @@ int main(){
     myList->insertSorted(1);
     myList->insertSorted(7);
     myList->insertSorted(3);
+    myList->insertSorted(5);
+    myList->insertSorted(2);
+    
 
-    cout<<"Before reverse: ";
+    //cout<<"Before reverse: ";
+    //myList->PrintList();
+
+    //myList->reverse();
+
+    //cout<<"After reverse: ";
+    //myList->PrintList();
+
+    cout<<"Before Swapping 1: ";
     myList->PrintList();
 
-    myList->reverse();
+    int x,y;
+    cout<<"Enter value1 for swapping: ";
+    cin>>x;
 
-    cout<<"After reverse: ";
+    cout<<"Enter value2 for swapping: ";
+    cin>>y;
+
+    myList->swapNodes(x,y);
+
+    cout<<"After Swapping 1: ";
     myList->PrintList();
-
 
 
 }
