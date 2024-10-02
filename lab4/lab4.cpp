@@ -188,6 +188,7 @@ class DoublyLinkedList{
 			        cout<<curr->data<<" "; //display data
                     curr=curr->next; //update to next node
                 }
+                cout<<endl;
             }
             else{ //if empty
                 cout<<"Nothing in list!"<<endl;
@@ -195,7 +196,30 @@ class DoublyLinkedList{
 
         }
 
+        void reverse(){ //Q1
+            if(! isEmpty()){
 
+                ListNode *currPtr = first; //start from first
+                ListNode *nextPtr; //to dtore next nodes
+                last=currPtr; //update last
+
+                while(currPtr->next!=NULL){ //traverse and update pointers
+                    nextPtr = currPtr->next;
+                    currPtr->next=currPtr->prev;
+                    currPtr->prev=nextPtr;
+                    currPtr=nextPtr;
+                }
+
+                //after reaching end update relevent node at end
+                currPtr->next=currPtr->prev;
+                currPtr->prev=NULL;
+                first = currPtr;
+
+
+            }
+        }
+
+        void swapNodes(int val1, int val2){}
 
 
 
@@ -208,9 +232,13 @@ int main(){
     myList->insertSorted(7);
     myList->insertSorted(3);
 
+    cout<<"Before reverse: ";
     myList->PrintList();
 
-    myList->~DoublyLinkedList();
+    myList->reverse();
+
+    cout<<"After reverse: ";
+    myList->PrintList();
 
 
 
