@@ -219,7 +219,28 @@ class DoublyLinkedList{
             }
         }
 
-        void swapNodes(int val1, int val2){}
+        void swapNodes(int val1, int val2){
+            //search and store val1 location
+            search(val1);
+            if(!Loc_){
+                cout<<"val1 not found in list"<<endl;
+                return;
+            }
+            ListNode* loc1 = Loc_;
+            ListNode* ploc1 = PredLoc_;
+
+            //search val2 location
+            search(val2);
+            if(!Loc_){
+                cout<<"val2 not found in list"<<endl;
+                return;
+            }
+            ListNode* loc2 = Loc_;
+            ListNode* ploc2 = PredLoc_;
+
+            
+
+        }
 
 
 
