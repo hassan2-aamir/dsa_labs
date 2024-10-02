@@ -273,7 +273,31 @@ class DoublyLinkedList{
 
         }
 
+        void rearrange(){
+            DoublyLinkedList *copy=new DoublyLinkedList(); //create temp list to store values
+            ListNode *curr = first;
+            while (curr!=NULL){
+                if(curr->data %2 == 0){
+                    copy->insertAtEnd(curr->data);
+                }
+                else{
+                    copy->insertAtFront(curr->data);
+                }
+                curr=curr->next;
+            
+            }
+            this->~DoublyLinkedList();
+            this->first = copy->first;
+            this->last = copy->last;
 
+            copy->first=NULL;
+            copy->last=NULL;
+
+            copy->~DoublyLinkedList();
+
+
+            
+        }
 
 };
 
@@ -283,7 +307,7 @@ int main(){
     myList->insertSorted(1);
     myList->insertSorted(7);
     myList->insertSorted(3);
-    myList->insertSorted(5);
+    myList->insertSorted(4);
     myList->insertSorted(2);
     
 
@@ -295,19 +319,12 @@ int main(){
     //cout<<"After reverse: ";
     //myList->PrintList();
 
-    cout<<"Before Swapping 1: ";
+    cout<<"Before rearranging: ";
     myList->PrintList();
 
-    int x,y;
-    cout<<"Enter value1 for swapping: ";
-    cin>>x;
+    myList->rearrange();
 
-    cout<<"Enter value2 for swapping: ";
-    cin>>y;
-
-    myList->swapNodes(x,y);
-
-    cout<<"After Swapping 1: ";
+    cout<<"After rearranging: ";
     myList->PrintList();
 
 
