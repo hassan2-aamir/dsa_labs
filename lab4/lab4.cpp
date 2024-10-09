@@ -311,18 +311,19 @@ int main(){
     myList->insertSorted(2);
     
 
-    //cout<<"Before reverse: ";
-    //myList->PrintList();
+    /*cout<<"Before reverse: ";
+    myList->PrintList();
 
-    //myList->reverse();
+    myList->reverse();
 
-    //cout<<"After reverse: ";
-    //myList->PrintList();
+    cout<<"After reverse: ";
+    myList->PrintList();*/
 
     cout<<"Before rearranging: ";
     myList->PrintList();
 
     myList->rearrange();
+    //myList->swapNodes(1,7);
 
     cout<<"After rearranging: ";
     myList->PrintList();
