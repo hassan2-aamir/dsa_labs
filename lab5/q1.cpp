@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+//stack with specified funnctions
 class Stack{
     public:
         int top;
@@ -45,37 +46,38 @@ class Stack{
 
 };
 
+//checks string
 void checkFunction(string str){
     Stack *braceStack=new Stack();
     int i;
     char _;
-    for(i=0;i<str.length();i++){
-        if(str[i] == '{' or str[i] == '(' or str[i] == '[' ){
+    for(i=0;i<str.length();i++){ //traverse equation
+        if(str[i] == '{' or str[i] == '(' or str[i] == '[' ){ //add brackets to stack
             braceStack->Push(str[i]);
         }
-        else if (str[i] == '}'){
+        else if (str[i] == '}'){ // pop and check if opening bracket in stack
             if(braceStack->Peak()=='{'){
                 _=braceStack->Pop();                
             }
-            else{
+            else{ //if no opening bracket wrong
                 cout<<"This expression is not correct."<<endl; 
                 break;
             }
         }
-        else if (str[i] == ')'){
+        else if (str[i] == ')'){ // pop and check if opening bracket in stack
             if(braceStack->Peak()=='('){
                 _=braceStack->Pop();                
-            }
-            else{
+            } 
+            else{ //if no opening bracket wrong
                 cout<<"This expression is not correct."<<endl;
                 break;
             }
         }
-        else if (str[i] == ']'){
+        else if (str[i] == ']'){ // pop and check if opening bracket in stack
             if(braceStack->Peak()=='['){
                 _=braceStack->Pop();                
             }
-            else{
+            else{ //if no opening bracket wrong
                 cout<<"This expression is not correct."<<endl; 
                 break;
             }
@@ -84,11 +86,11 @@ void checkFunction(string str){
             continue;
         }
     }
-    if (i==str.length()){
-        if(!braceStack->isEmpty()){
+    if (i==str.length()){ //check if gone through whole loop
+        if(!braceStack->isEmpty()){ //if still something so not correct
             cout<<"This expression is not correct"<<endl; 
         }
-        else{
+        else{ //stack is empty
             cout<<"This expression is correct";
         }
     }
