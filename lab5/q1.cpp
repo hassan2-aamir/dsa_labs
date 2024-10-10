@@ -47,19 +47,57 @@ class Stack{
 
 void checkFunction(string str){
     Stack *braceStack=new Stack();
-    int brackets=0;
-    for(int i=0;i<str.length();i++){
+    int i;
+    char _;
+    for(i=0;i<str.length();i++){
         if(str[i] == '{' or str[i] == '(' or str[i] == '[' ){
             braceStack->Push(str[i]);
         }
         else if (str[i] == '}'){
             if(braceStack->Peak()=='{'){
-
+                _=braceStack->Pop();                
             }
+            else{
+                cout<<"This expression is not correct."<<endl; 
+                break;
+            }
+        }
+        else if (str[i] == ')'){
+            if(braceStack->Peak()=='('){
+                _=braceStack->Pop();                
+            }
+            else{
+                cout<<"This expression is not correct."<<endl;
+                break;
+            }
+        }
+        else if (str[i] == ']'){
+            if(braceStack->Peak()=='['){
+                _=braceStack->Pop();                
+            }
+            else{
+                cout<<"This expression is not correct."<<endl; 
+                break;
+            }
+        }
+        else{
+            continue;
+        }
+    }
+    if (i==str.length()){
+        if(!braceStack->isEmpty()){
+            cout<<"This expression is not correct"<<endl; 
+        }
+        else{
+            cout<<"This expression is correct";
         }
     }
 
 }
 int main(){
+    string sin;
+    cout<<"Enter string: ";
+    cin>>sin;
 
+    checkFunction(sin);
 }
