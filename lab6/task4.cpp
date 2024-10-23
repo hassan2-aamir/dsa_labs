@@ -1,52 +1,60 @@
-#include "task1to3.h"
-#include <iostream>
+#include "task1to3.h"  // Include the header file containing the class definitions for BST_Node and binarySearchTree
+#include <iostream>    // Include for input/output operations
 using namespace std;
 
+// Function for Pre-Order Traversal
+// Root -> Left -> Right
 void PreOrderTraversal(BST_Node* root){
     if(root != nullptr){
-        cout<<root->data<<endl;
-        PreOrderTraversal(root->LeftChild);
-        PreOrderTraversal(root->RightChild);
+        cout << root->data << endl;  // Visit the root node
+        PreOrderTraversal(root->LeftChild);  // Traverse the left subtree
+        PreOrderTraversal(root->RightChild);  // Traverse the right subtree
     }
 }
 
-void InOrderTraversal(BST_Node* root){
+// Function for In-Order Traversal
+// Left -> Root -> Right (prints nodes in ascending order for a BST)
+void inOrderTraversal(BST_Node* root){
     if(root != nullptr){
-        InOrderTraversal(root->LeftChild);
-        cout<<root->data<<endl;
-        InOrderTraversal(root->RightChild);
+        InOrderTraversal(root->LeftChild);  // Traverse the left subtree
+        cout << root->data << endl;  // Visit the root node
+        InOrderTraversal(root->RightChild);  // Traverse the right subtree
     }
 }
 
+// Function for Post-Order Traversal
+// Left -> Right -> Root
 void PostOrderTraversal(BST_Node* root){
     if(root != nullptr){
-        PostOrderTraversal(root->LeftChild);
-        PostOrderTraversal(root->RightChild);
-        cout<<root->data<<endl;
+        PostOrderTraversal(root->LeftChild);  // Traverse the left subtree
+        PostOrderTraversal(root->RightChild);  // Traverse the right subtree
+        cout << root->data << endl;  // Visit the root node
     }
 }
 
 int main() {
-    binarySearchTree bst;
+    binarySearchTree bst;  // Create a binary search tree object
 
-   
-    // Insert values
-    bst.InsertWithoutDuplication(10);
-    bst.InsertWithoutDuplication(5);
-    bst.InsertWithoutDuplication(15);
-    bst.InsertWithoutDuplication(3);
-    bst.InsertWithoutDuplication(7);
-    bst.InsertWithoutDuplication(12);
-    bst.InsertWithoutDuplication(18);
+    // Insert values into the binary search tree
+    bst.InsertWithoutDuplication(10);  // Insert the root node
+    bst.InsertWithoutDuplication(5);   // Insert left child of root
+    bst.InsertWithoutDuplication(15);  // Insert right child of root
+    bst.InsertWithoutDuplication(3);   // Insert left child of node 5
+    bst.InsertWithoutDuplication(7);   // Insert right child of node 5
+    bst.InsertWithoutDuplication(12);  // Insert left child of node 15
+    bst.InsertWithoutDuplication(18);  // Insert right child of node 15
 
-    cout<<endl<<"In order traversal: "<<endl;
-    InOrderTraversal(bst.root);
+    // Perform and display In-Order Traversal
+    cout << endl << "In order traversal: " << endl;
+    inOrderTraversal(bst.root);
 
-    cout<<endl<<"Pre order traversal: "<<endl;
+    // Perform and display Pre-Order Traversal
+    cout << endl << "Pre order traversal: " << endl;
     PreOrderTraversal(bst.root);
 
-    cout<<endl<<"Post order traversal: "<<endl;
+    // Perform and display Post-Order Traversal
+    cout << endl << "Post order traversal: " << endl;
     PostOrderTraversal(bst.root);
-    return 0;
-}
 
+    return 0;  // End of the program
+}
