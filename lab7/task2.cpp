@@ -1,26 +1,27 @@
-#include "bst.h"
-#include <iostream>
+#include "bst.h"    // Include the binary search tree header file
+#include <iostream> // Include input-output stream library
 using namespace std;
 
-void destroyTree(binarySearchTree &bst,BST_Node* &root){
-    BST_Node* curr = root;
-    BST_Node* currl = curr->LeftChild;
-    BST_Node* currr = curr->RightChild;
+// Function to recursively destroy all nodes in the binary search tree
+void destroyTree(binarySearchTree &bst, BST_Node* &root) {
+    BST_Node* curr = root;          // Set curr to the root of the tree
+    BST_Node* currl = curr->LeftChild; // Pointer to the left child of current node
+    BST_Node* currr = curr->RightChild; // Pointer to the right child of current node
 
-    curr->LeftChild=nullptr;
-    curr->RightChild=nullptr;
-    delete curr;
-    root = nullptr;
+    // Disconnect current node's children
+    curr->LeftChild = nullptr;
+    curr->RightChild = nullptr;
+    delete curr;                    // Delete the current node
+    root = nullptr;                 // Set root to nullptr, effectively deleting the tree
 
-    if(currl != nullptr){
-        destroyTree(bst,currl);
+    // Recursively destroy left and right subtrees
+    if(currl != nullptr) {
+        destroyTree(bst, currl);    // Destroy left subtree
     }
 
-    if(currr != nullptr){
-        destroyTree(bst,currr);
+    if(currr != nullptr) {
+        destroyTree(bst, currr);    // Destroy right subtree
     }
-
-
 }
 
 
@@ -39,17 +40,14 @@ int main() {
 
    // Display the contents of the tree using In-Order Traversal
    cout << endl << "Tree Contents: " << endl;
-   InOrderTraversal(bst.root);
+   InOrderTraversal(bst.root);  // Print tree contents before deletion
 
-   // Get value to delete from user
-   
-   
-   // Delete the specified value
-   destroyTree(bst,bst.root);
+   // Delete the entire tree
+   destroyTree(bst, bst.root); // Call destroyTree to delete all nodes in the tree
 
-   // Display updated tree contents
+   // Display updated tree contents after deletion
    cout << endl << "Tree Contents after destruction: " << endl;
-   InOrderTraversal(bst.root);
+   InOrderTraversal(bst.root); // Print tree contents after deletion
 
    return 0;  // End of the program
 }
