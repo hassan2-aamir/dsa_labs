@@ -1,59 +1,127 @@
+// Include required header files
 #include "bst.h"
 #include <iostream>
 using namespace std;
 
-BST_Node* predecessor(BST_Node* curr,int start=1){
-    if (start ==1)curr = curr->LeftChild;
-    // If there is no right child, we have found the smallest node
-    if(curr->RightChild == nullptr){
-        return curr;  // Output the largest node's value
-    }
-    else{
-        predecessor(curr->RightChild,0);  // Continue moving to the right to find the largest node
-    }
+// Function to delete a node with given value from binary search tree
+void deleteNode(int val, binarySearchTree &bst) {
+   // Search for node to be deleted
+   bst.Search(val);
+   
+   // If node not found, print error message and return
+   if (bst.loc == nullptr) {
+       cout << "Delete value does not exist in tree or tree is empty";
+       return;
+   }
+   
+   // Store pointers to node to be deleted and its parent
+   BST_Node* nodeToDelete = bst.loc;
+   BST_Node* parentNode = bst.ploc;
+   
+   // Case 1: If node to be deleted is a leaf node
+   if (nodeToDelete->LeftChild == nullptr && nodeToDelete->RightChild == nullptr) {
+       // If node is root
+       if (parentNode == nullptr) {
+           bst.root = nullptr;
+       }
+       // If node is not root
+       else {
+           // If node is right child of parent
+           if (nodeToDelete->data > parentNode->data) {
+               parentNode->RightChild = nullptr;
+           }
+           // If node is left child of parent 
+           else {
+               parentNode->LeftChild = nullptr;
+           }
+       }
+       // Delete the node
+       delete nodeToDelete;
+   }
+   
+   // Case 2: If node to be deleted has exactly one child
+   else if ((nodeToDelete->LeftChild == nullptr) || (nodeToDelete->RightChild == nullptr)) {
+       // Get the child node (either left or right)
+       BST_Node* child = (nodeToDelete->LeftChild != nullptr) ? 
+                         nodeToDelete->LeftChild : nodeToDelete->RightChild;
+       
+       // If node to delete is root
+       if (parentNode == nullptr) {
+           bst.root = child;
+       }
+       // If node is not root
+       else {
+           // If node is right child of parent
+           if (nodeToDelete->data > parentNode->data) {
+               parentNode->RightChild = child;
+           }
+           // If node is left child of parent
+           else {
+               parentNode->LeftChild = child;
+           }
+       }
+       // Delete the node
+       delete nodeToDelete;
+   }
+   
+   // Case 3: If node to be deleted has two children
+   else {
+       // Find the predecessor (largest value in left subtree)
+       BST_Node* predecessorParent = nodeToDelete;
+       BST_Node* predecessor = nodeToDelete->LeftChild;
+       
+       // Find the rightmost node in left subtree
+       while (predecessor->RightChild != nullptr) {
+           predecessorParent = predecessor;
+           predecessor = predecessor->RightChild;
+       }
+       
+       // Copy predecessor's data to node to be deleted
+       nodeToDelete->data = predecessor->data;
+       
+       // Delete the predecessor node
+       if (predecessorParent == nodeToDelete) {
+           // If predecessor is direct left child
+           predecessorParent->LeftChild = predecessor->LeftChild;
+       }
+       else {
+           // If predecessor is not direct left child
+           predecessorParent->RightChild = predecessor->LeftChild;
+       }
+       
+       // Delete predecessor node
+       delete predecessor;
+   }
 }
-void deleteNode(int val,binarySearchTree bst){
-    bst.Search(val);
-    if(bst.loc==nullptr){
-        cout<<"Delete value does not exist in tree or tree is empty";
-    }
-    else{
-        //leaf node
-        if (bst.loc->LeftChild == nullptr && bst.loc->RightChild == nullptr){
-            if(bst.loc->data>bst.ploc->data) bst.ploc->RightChild=nullptr;
-            else bst.ploc->LeftChild=nullptr;
-            BST_Node* temp = bst.loc;
-            delete temp;
-        }
-        //one subtree
-        else if((bst.loc->LeftChild==nullptr && bst.loc->RightChild!= nullptr)||(bst.loc->LeftChild!= nullptr && bst.loc->RightChild== nullptr)){
-            if(bst.loc->data>bst.ploc->data) bst.ploc->RightChild=nullptr;
-            else bst.ploc->LeftChild=nullptr;
 
-            if (bst.loc->LeftChild!= nullptr){
-                if(bst.ploc->data<bst.loc->LeftChild->data) bst.ploc->RightChild=bst.loc->LeftChild;
-                else bst.ploc->LeftChild=bst.loc->LeftChild;
-            }
+int main() {
+   binarySearchTree bst;  // Create a binary search tree object
 
-            if (bst.loc->RightChild!= nullptr){
-                if(bst.ploc->data<bst.loc->RightChild->data) bst.ploc->RightChild=bst.loc->RightChild;
-                else bst.ploc->LeftChild=bst.loc->RightChild;
-            }
+   // Insert values into the binary search tree
+   bst.InsertWithoutDuplication(10);  // Insert the root node
+   bst.InsertWithoutDuplication(5);   // Insert left child of root
+   bst.InsertWithoutDuplication(15);  // Insert right child of root
+   bst.InsertWithoutDuplication(3);   // Insert left child of node 5
+   bst.InsertWithoutDuplication(7);   // Insert right child of node 5
+   bst.InsertWithoutDuplication(12);  // Insert left child of node 15
+   bst.InsertWithoutDuplication(18);  // Insert right child of node 15
+   bst.InsertWithoutDuplication(20);  // Insert right child of node 18
 
-            BST_Node* temp = bst.loc;
-            delete temp;
-        }
+   // Display the contents of the tree using In-Order Traversal
+   cout << endl << "Tree Contents: " << endl;
+   InOrderTraversal(bst.root);
 
-        //two subtrees
-        else{
-            BST_Node* pred = predecessor(bst.loc);
-            if(bst.loc->data>bst.ploc->data) bst.ploc->RightChild=nullptr;
-            else bst.ploc->LeftChild=nullptr;
+   // Get value to delete from user
+   int inp;
+   cout<<"Enter value to delete: ";
+   cin>>inp;
+   
+   // Delete the specified value
+   deleteNode(inp,bst);
 
-            bst.loc->LeftChild=nullptr;
-            bst.ploc->RightChild
+   // Display updated tree contents
+   cout << endl << "Tree Contents after deletion: " << endl;
+   InOrderTraversal(bst.root);
 
-        }
-
-    }
+   return 0;  // End of the program
 }
