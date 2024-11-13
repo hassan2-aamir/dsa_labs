@@ -98,15 +98,17 @@ void deleteNode(int val, binarySearchTree &bst) {
 void delete1sub(BST_Node* root, binarySearchTree &bst) {
     if (root == nullptr) return;  // Base case: if root is null, return
 
+    // Recursively delete nodes with only one subtree in left and right subtrees
+    delete1sub(root->LeftChild, bst);
+    delete1sub(root->RightChild, bst);
+
     // If the node has only a left child, delete the node
     if (root->LeftChild != nullptr && root->RightChild == nullptr) {
         deleteNode(root->data, bst);
     }
-    else {
-        // Recursively delete nodes with only one subtree in left and right subtrees
-        delete1sub(root->LeftChild, bst);
-        delete1sub(root->RightChild, bst);
-    }
+    
+    
+    
 }
 
 int main() {
@@ -120,6 +122,9 @@ int main() {
     bst.InsertWithoutDuplication(12);  // Insert left child of node 15
     bst.InsertWithoutDuplication(18);  // Insert right child of node 15
     bst.InsertWithoutDuplication(20);  // Insert right child of node 18
+    
+    
+    
 
     // Display the contents of the tree using In-Order Traversal before deletion
     cout << endl << "Tree Contents: " << endl;
