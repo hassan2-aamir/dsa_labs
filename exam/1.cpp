@@ -4,7 +4,7 @@ using namespace std;
 
 int calculateHeight(BST_Node* root){
     if (root==nullptr){
-        return 0;
+        return -1;
     }
 
     else{
@@ -36,7 +36,7 @@ BST_Node* rotateRight(BST_Node* root){
     return x;
 }
 
-void balanceNode(BST_Node* node){
+BST_Node* balanceNode(BST_Node* node){
     int balance = checkBalance(node);
 
     if(balance>1){
@@ -59,4 +59,52 @@ void balanceNode(BST_Node* node){
         }
 
     }
+
+    return node;
+}
+
+void insertNodeAVLTree(int val, BST_Node* &root){
+    if(val>root->data){
+        if(root->RightChild == nullptr){
+            root->RightChild=new BST_Node(val);
+        }
+        else{
+            insertNodeAVLTree(val,root->RightChild);
+        }
+    }
+
+    else if(val<root->data){
+        if(root->LeftChild==nullptr){
+            root->LeftChild = new BST_Node(val) ;
+        }
+        else{
+            insertNodeAVLTree(val,root->LeftChild);
+        }
+
+    }
+
+    root=balanceNode(root);
+}
+
+// Function for In-Order Traversal
+void inOrderTraversal(BST_Node* root) {
+    if (root == nullptr) return;
+    
+    inOrderTraversal(root->LeftChild);          // Traverse left subtree
+    cout << root->data << " ";              // Print node value
+    inOrderTraversal(root->RightChild);         // Traverse right subtree
+}
+
+int main(){
+    BST_Node* root = new BST_Node(10);
+    insertNodeAVLTree(11,root);
+    insertNodeAVLTree(12,root);
+
+    cout <<endl<< "In-Order Traversal of the binary tree: ";
+    inOrderTraversal(root);  // Display tree contents in In-Order Traversal
+    cout << endl;
+
+    cout<<root->LeftChild->data<<endl;
+
+
 }
