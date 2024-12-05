@@ -46,17 +46,18 @@ HuffmanNode* buildHuffmanTree(string &input){
     return minHeap.top();
 }
 
-void generateHuffmanCodes(HuffmanNode* root, string code, vector<char>& chars, vector<string>& huffmanCodes){
+void generateHuffmanCodes(HuffmanNode* root, string code, vector<char>& chars,vector<int>& frequencies ,vector<string>& huffmanCodes){
     if (root){
         if(!root->left && !root->right){
             chars.push_back(root->character);
+            frequencies.push_back(root->frequency);
             huffmanCodes.push_back(code);
         }
 
         if (root->left)
-            generateHuffmanCodes(root->left, code + "0", chars, huffmanCodes);
+            generateHuffmanCodes(root->left, code + "0", chars, frequencies,huffmanCodes);
         if (root->right)
-            generateHuffmanCodes(root->right, code + "1", chars, huffmanCodes);
+            generateHuffmanCodes(root->right, code + "1", chars, frequencies,huffmanCodes);
     }
 }
 
@@ -65,12 +66,16 @@ void codeString(string& input){
 
     vector<char> chars;
     vector<string> huffmanCodes;
+    vector<int> frequencies;
 
-    generateHuffmanCodes(root, "", chars, huffmanCodes);
+    // Traverse the tree to collect characters, codes, and frequencies
+    generateHuffmanCodes(root, "", chars, frequencies,huffmanCodes);
 
     cout << "Huffman Codes:\n";
     for (size_t i = 0; i < chars.size(); i++) {
-        cout << chars[i] << ": " << huffmanCodes[i] << "\n";
+        cout << chars[i] << ": " 
+             << "Frequency = " << frequencies[i] 
+             << ", Code = " << huffmanCodes[i] << "\n";
     }
 
     cout << "Encoded String:\n";
