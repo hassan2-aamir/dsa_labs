@@ -19,7 +19,7 @@ private:
         return 2 * i + 2; 
         }
 
-    // Heapify down to maintain min-heap property when 
+    // Heapify down to maintain min-heap property while going from up to down
     void heapifyDown(int i) {
         int left = leftChild(i);
         int right = rightChild(i);
@@ -36,7 +36,7 @@ private:
         }
     }
 
-    // Heapify up to maintain min-heap property
+    // Heapify up to maintain min-heap property going bottom to up
     void heapifyUp(int i) {
         while (i > 0 && heap[parent(i)] > heap[i]) {
             swap(heap[i], heap[parent(i)]);
