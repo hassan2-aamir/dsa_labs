@@ -3,41 +3,28 @@
 #include "heap.hpp"
 using namespace std;
 
+// Example Usage
 int main() {
-    MinHeap heap;
+    MinHeap minHeap;
 
-    // Test push
-    heap.push(10);
-    heap.push(15);
-    heap.push(20);
-    heap.push(17);
-    heap.push(8);
+    // Insert nodes
+    minHeap.push(new HuffmanNode('a', 5));
+    minHeap.push(new HuffmanNode('b', 9));
+    minHeap.push(new HuffmanNode('c', 12));
+    minHeap.push(new HuffmanNode('d', 13));
+    minHeap.push(new HuffmanNode('e', 16));
+    minHeap.push(new HuffmanNode('f', 45));
 
-    cout << "Heap after pushes:" << endl;
-    heap.print();
+    // Print heap
+    cout << "Min Heap:" << endl;
+    minHeap.print();
 
-    // Test top
-    cout << "Top element: " << heap.top() << endl;
-
-    // Test pop
-    heap.pop();
-    cout << "Heap after pop:" << endl;
-    heap.print();
-
-    // Test size
-    cout << "Heap size: " << heap.size() << endl;
-
-    // Test height
-    cout << "Heap height: " << heap.height() << endl;
-
-    // Test buildHeap
-    vector<int> arr = {3, 9, 2, 1, 4, 5};
-    heap.buildHeap(arr);
-    cout << "Heap after buildHeap:" << endl;
-    heap.print();
-
-    // Test isEmpty
-    cout << "Is heap empty? " << (heap.isEmpty() ? "Yes" : "No") << endl;
+    // Extract elements
+    while (!minHeap.isEmpty()) {
+        HuffmanNode* node = minHeap.top();
+        cout << "Extracted: (" << node->character << ", " << node->frequency << ")" << endl;
+        minHeap.pop();
+    }
 
     return 0;
 }

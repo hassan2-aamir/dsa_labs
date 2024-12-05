@@ -4,30 +4,41 @@
 
 using namespace std;
 
+class HuffmanNode {
+public:
+    char character;       // The character
+    int frequency;        // Frequency of the character
+    HuffmanNode* left;    // Pointer to the left child
+    HuffmanNode* right;   // Pointer to the right child
+
+    // Constructor
+    HuffmanNode(char ch, int freq) : character(ch), frequency(freq), left(nullptr), right(nullptr) {}
+};
+
 class MinHeap {
 private:
-    vector<int> heap;
+    vector<HuffmanNode*> heap;
 
     // Helper functions
     int parent(int i) { 
-        return (int) i  / 2; 
+        return (i - 1) / 2; 
     }
     int leftChild(int i) { 
         return 2 * i + 1; 
     }
     int rightChild(int i) { 
         return 2 * i + 2; 
-        }
+    }
 
-    // Heapify down to maintain min-heap property while going from up to down
+    // Heapify down
     void heapifyDown(int i) {
         int left = leftChild(i);
         int right = rightChild(i);
         int smallest = i;
 
-        if (left < heap.size() and heap[left] < heap[smallest])
+        if (left < heap.size() && heap[left]->frequency < heap[smallest]->frequency)
             smallest = left;
-        if (right < heap.size() and heap[right] < heap[smallest])
+        if (right < heap.size() && heap[right]->frequency < heap[smallest]->frequency)
             smallest = right;
 
         if (smallest != i) {
@@ -36,74 +47,55 @@ private:
         }
     }
 
-    // Heapify up to maintain min-heap property going bottom to up
+    // Heapify up
     void heapifyUp(int i) {
-        while (i > 0 && heap[parent(i)] > heap[i]) {
+        while (i > 0 && heap[parent(i)]->frequency > heap[i]->frequency) {
             swap(heap[i], heap[parent(i)]);
             i = parent(i);
         }
     }
 
 public:
-    // Returns the minimum element without removing it
-    int top() {
+    // Get the root node (minimum element)
+    HuffmanNode* top() {
         if (isEmpty()) {
-            cout<< "Heap is empty";
+            cout << "Heap is empty" << endl;
+            return nullptr;
         }
         return heap[0];
     }
 
-    // Removes the minimum element
+    // Remove the root node
     void pop() {
         if (isEmpty()) {
-            cout<<"Heap is empty"<<endl;
+            cout << "Heap is empty" << endl;
+            return;
         }
         heap[0] = heap.back();
         heap.pop_back();
         heapifyDown(0);
     }
 
-    // Inserts a new element into the heap
-    void push(int num) {
-        heap.push_back(num);
+    // Insert a new node
+    void push(HuffmanNode* node) {
+        heap.push_back(node);
         heapifyUp(heap.size() - 1);
     }
 
-    // Checks if the heap is empty
+    // Check if the heap is empty
     bool isEmpty() {
         return heap.empty();
     }
 
-    // Returns the number of elements in the heap
+    // Get the size of the heap
     int size() {
         return heap.size();
     }
 
-    // Returns the height of the heap
-    int height() {
-        return isEmpty() ? 0 : ceil(log2(heap.size() + 1)) - 1;
-    }
-
-    // Builds a heap from an array
-    void buildHeap( vector<int>& array) {
-        heap = array;
-        for (int i = parent(heap.size() - 1); i >= 0; i--) {
-            heapifyDown(i);
-        }
-    }
-
-    // Prints the heap as a tree
+    // Print the heap as a tree
     void print() {
-        int level = 0, count = 0, levelSize = 1;
-        for (int i = 0; i < heap.size(); ++i) {
-            if (count == 0) {
-                cout << "Level " << level++ << ": ";
-                levelSize *= 2;
-                count = levelSize / 2;
-            }
-            cout << heap[i] << " ";
-            count--;
-            if (count == 0) cout << endl;
+        for (HuffmanNode* node : heap) {
+            cout << "(" << node->character << ", " << node->frequency << ") ";
         }
         cout << endl;
     }
