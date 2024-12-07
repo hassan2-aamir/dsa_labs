@@ -67,14 +67,16 @@ void generateHuffmanCodes(HuffmanNode* root, string code, vector<char>& chars, v
     }
 }
 
+// Function to return the encoded string in binary format
 string codeString(string& input, HuffmanNode* root) {
+    vector<char> chars;            // Vector to store unique characters from the input
+    vector<string> huffmanCodes;   // Vector to store corresponding Huffman codes
+    vector<int> frequencies;       // Vector to store frequencies of the characters
 
-    vector<char> chars;
-    vector<string> huffmanCodes;
-    vector<int> frequencies;
-
+    // Generate the Huffman codes, characters, and their frequencies using the Huffman tree
     generateHuffmanCodes(root, "", chars, frequencies, huffmanCodes);
 
+    // Display the generated Huffman codes and their respective frequencies
     cout << "Huffman Codes:\n";
     for (size_t i = 0; i < chars.size(); i++) {
         cout << chars[i] << ": "
@@ -82,19 +84,23 @@ string codeString(string& input, HuffmanNode* root) {
              << ", Code = " << huffmanCodes[i] << "\n";
     }
 
-    string encodedText = "";
+    string encodedText = ""; // String to store the final encoded text
+
+    // Iterate through each character in the input string
     for (char ch : input) {
+        // Find the Huffman code corresponding to the current character
         for (size_t i = 0; i < chars.size(); i++) {
             if (ch == chars[i]) {
-                encodedText += huffmanCodes[i];
-                break;
+                encodedText += huffmanCodes[i]; // Append the code to the encoded text
+                break; // Exit the loop once the character is found
             }
         }
     }
-    return encodedText;
+
+    return encodedText; // Return the complete encoded string
 }
 
-
+//function to decode binary to string 
 string decode(string codedText, HuffmanNode* root) {
     string decodedText = "";
     HuffmanNode* currentNode = root;
