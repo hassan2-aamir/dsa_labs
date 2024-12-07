@@ -4,9 +4,6 @@
 #include "heap.hpp"
 using namespace std;
 
-// Function prototype declarations
-void generateHuffmanCodes(HuffmanNode* root, string code, vector<char>& chars, vector<string>& huffmanCodes);
-void codeString(string& input);
 
 // Function to build the Huffman Tree from the input string
 HuffmanNode* buildHuffmanTree(string &input) {
@@ -70,45 +67,65 @@ void generateHuffmanCodes(HuffmanNode* root, string code, vector<char>& chars, v
     }
 }
 
-// Function to encode the input string using Huffman coding
-void codeString(string& input) {
-    // Build the Huffman Tree from the input string
-    HuffmanNode* root = buildHuffmanTree(input);
+string codeString(string& input, HuffmanNode* root) {
 
-    vector<char> chars;  // List of unique characters
-    vector<string> huffmanCodes;  // Corresponding Huffman codes
-    vector<int> frequencies;  // Frequencies of the characters
+    vector<char> chars;
+    vector<string> huffmanCodes;
+    vector<int> frequencies;
 
-    // Traverse the tree to collect the characters, codes, and frequencies
     generateHuffmanCodes(root, "", chars, frequencies, huffmanCodes);
 
-    // Print the Huffman codes along with the character frequencies
     cout << "Huffman Codes:\n";
     for (size_t i = 0; i < chars.size(); i++) {
-        cout << chars[i] << ": " 
-             << "Frequency = " << frequencies[i] 
+        cout << chars[i] << ": "
+             << "Frequency = " << frequencies[i]
              << ", Code = " << huffmanCodes[i] << "\n";
     }
 
-    // Encode the input string using the generated Huffman codes
-    cout << "Encoded String:\n";
-    for (char ch: input) {
-        // Find the Huffman code for each character in the input string
+    string encodedText = "";
+    for (char ch : input) {
         for (size_t i = 0; i < chars.size(); i++) {
             if (ch == chars[i]) {
-                cout << huffmanCodes[i];
+                encodedText += huffmanCodes[i];
                 break;
             }
         }
     }
-    cout << '\n';
+    return encodedText;
+}
+
+
+string decode(string codedText, HuffmanNode* root) {
+    string decodedText = "";
+    HuffmanNode* currentNode = root;
+
+    for (char bit : codedText) {
+        // Traverse the tree based on the current bit
+        if (bit == '0') {
+            currentNode = currentNode->left;
+        } else if (bit == '1') {
+            currentNode = currentNode->right;
+        }
+
+        // If a leaf node is reached, append the character to the decoded text
+        if (!currentNode->left && !currentNode->right) {
+            decodedText += currentNode->character;
+            currentNode = root; // Restart traversal for the next character
+        }
+    }
+
+    return decodedText;
 }
 
 
 // Main function to demonstrate Huffman coding
 int main() {
     string text = "hello world";  // Input text
+    HuffmanNode* root =  buildHuffmanTree(text);
     cout << "Input Text: " << text << "\n\n";
-    codeString(text);  // Perform Huffman encoding
+    string codedText = codeString(text,root);  // Perform Huffman encoding
+    cout<<"\nEncoded Text:"<<codedText<<"\n\n";
+
+    cout<<"Decoded Text: " << decode(codedText,root)<<"\n" ;
     return 0;
 }
