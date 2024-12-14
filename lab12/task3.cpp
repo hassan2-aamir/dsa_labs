@@ -1,14 +1,16 @@
 #include <iostream>
-#include "task1.hpp"
+#include <cmath>
+#include "task3.hpp"
 using namespace std;
 
+
 int main() {
-    directAddressing hashTable;
+    directAddressing_withQuadraticProbing hashTable;
 
     int choice, value;
 
     while (true) {
-        cout << "\n--- Direct Addressing Hash Table Menu ---" << endl;
+        cout << "\n--- Direct Addressing Hash Table with Quadratic Probing Menu ---" << endl;
         cout << "1. Insert Value" << endl;
         cout << "2. Search Value" << endl;
         cout << "3. Delete Value" << endl;

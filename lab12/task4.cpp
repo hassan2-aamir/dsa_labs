@@ -1,14 +1,14 @@
 #include <iostream>
-#include "task1.hpp"
+#include "task4.hpp"
 using namespace std;
 
 int main() {
-    directAddressing hashTable;
+    DirectAddressingWithDoubleHashing hashTable;
 
     int choice, value;
 
     while (true) {
-        cout << "\n--- Direct Addressing Hash Table Menu ---" << endl;
+        cout << "\n--- Direct Addressing Hash Table with Double Hashing Menu ---" << endl;
         cout << "1. Insert Value" << endl;
         cout << "2. Search Value" << endl;
         cout << "3. Delete Value" << endl;
@@ -48,5 +48,6 @@ int main() {
                 cout << "Invalid choice, please try again." << endl;
         }
     }
+
     return 0;
 }

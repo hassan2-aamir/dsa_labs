@@ -1,9 +1,10 @@
 #include <iostream>
-#include "task1.hpp"
+#include "task2.hpp"
 using namespace std;
 
+
 int main() {
-    directAddressing hashTable;
+    directAddressing_withLinearProbing hashTable;
 
     int choice, value;
 
